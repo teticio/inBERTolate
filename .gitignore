@@ -1,5 +1,2 @@
 .ipynb_checkpoints
 .vscode
-.venv
-poetry.lock
-pyproject.toml
