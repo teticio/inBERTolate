@@ -91,11 +91,11 @@ def parallel_sequential_generation(seed_text,
 
 
 def inbertolate(doc,
-                max_len=15,
-                top_k=0,
-                temperature=None,
-                max_iter=300,
-                burnin=200):
+                max_len=max_len,
+                top_k=top_k,
+                temperature=temperature,
+                max_iter=max_iter,
+                burnin=burnin):
     new_doc = ''
     paras = doc.split('\n')
 
