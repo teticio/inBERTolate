@@ -1,8 +1,11 @@
+import nltk
 import torch
 import numpy as np
 import gradio as gr
 from nltk import sent_tokenize
 from transformers import RobertaTokenizer, RobertaForMaskedLM
+
+nltk.download('punkt')
 
 cuda = torch.cuda.is_available()
 
