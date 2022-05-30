@@ -51,16 +51,16 @@ def generate_step(out: object,
         - list: batch_size tokens
     """
     logits = out.logits[:, gen_idx]
-    logit_warpers = []
-    if top_k > 0:
-        logit_warpers += [TopKLogitsWarper(top_k)]
+    warpers = LogitsProcessorList()
     if temperature:
-        logit_warpers += [TemperatureLogitsWarper(temperature)]
+        warpers += [TemperatureLogitsWarper(temperature)]
+    if top_k > 0:
+        warpers += [TopKLogitsWarper(top_k)]
     if typical_p > 0:
         if typical_p >= 1:
             typical_p = 0.999
-        logit_warpers += [TypicalLogitsWarper(typical_p)]
-    logits = LogitsProcessorList(logit_warpers)(None, logits)
+        warpers += [TypicalLogitsWarper(typical_p)]
+    logits = warpers(None, logits)
 
     if sample:
         probs = torch.nn.functional.softmax(logits, dim=-1)
