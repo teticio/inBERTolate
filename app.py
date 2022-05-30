@@ -124,7 +124,7 @@ def inbertolate(doc: str,
                 temperature: float = temperature,
                 typical_p: float = typical_p,
                 max_iter: int = max_iter,
-                burnin: int = burnin):
+                burnin: int = burnin) -> str:
     """ Pad out document generating every other sentence
     
     Args:
