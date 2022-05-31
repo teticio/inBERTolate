@@ -41,7 +41,7 @@ def generate_step(out: object,
     
     args:
         - out (torch.Tensor): tensor of logits of size batch_size x seq_len x vocab_size
-        - gen_idx (int): location for which to generate for
+        - gen_idx (int): location for which to generate
         - top_k (int): if >0, only sample from the top k most probable words
         - temperature (float): sampling temperature
         - typical_p (float): if >0 use typical sampling
@@ -53,13 +53,13 @@ def generate_step(out: object,
     logits = out.logits[:, gen_idx]
     warpers = LogitsProcessorList()
     if temperature:
-        warpers += [TemperatureLogitsWarper(temperature)]
+        warpers.append(TemperatureLogitsWarper(temperature))
     if top_k > 0:
-        warpers += [TopKLogitsWarper(top_k)]
+        warpers.append(TopKLogitsWarper(top_k))
     if typical_p > 0:
         if typical_p >= 1:
             typical_p = 0.999
-        warpers += [TypicalLogitsWarper(typical_p)]
+        warpers.append(TypicalLogitsWarper(typical_p))
     logits = warpers(None, logits)
 
     if sample:
