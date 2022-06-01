@@ -1,1 +1,5 @@
+gradio
 nltk
+numpy
+torch
+transformers
