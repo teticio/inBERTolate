@@ -15,12 +15,11 @@ from transformers.generation_logits_process import TypicalLogitsWarper
 
 nltk.download('punkt')
 
-cuda = torch.cuda.is_available()
-
-tokenizer = RobertaTokenizer.from_pretrained("roberta-large")
-model = RobertaForMaskedLM.from_pretrained("roberta-large")
-if cuda:
-    model = model.cuda()
+device = "cuda" if torch.cuda.is_available() else "cpu"
+pretrained = "roberta-large" if device == "cuda" else "roberta-base"
+tokenizer = RobertaTokenizer.from_pretrained(pretrained)
+model = RobertaForMaskedLM.from_pretrained(pretrained)
+model = model.to(device)
 
 max_len = 20
 top_k = 100
@@ -99,8 +98,7 @@ def parallel_sequential_generation(seed_text: str,
     masked_tokens = np.where(
         inp['input_ids'][0].numpy() == tokenizer.mask_token_id)[0]
     seed_len = masked_tokens[0]
-    if cuda:
-        inp = inp.to('cuda')
+    inp = inp.to(device)
 
     for ii in range(max_iter):
         kk = np.random.randint(0, max_len)
