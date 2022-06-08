@@ -1,3 +1,5 @@
+import argparse
+
 import nltk
 import torch
 import numpy as np
@@ -164,38 +166,39 @@ def inbertolate(doc: str,
 
 
 if __name__ == '__main__':
-    block = gr.Blocks(css='.container')
-    with block:
-        gr.Markdown("<h1><center>inBERTolate</center></h1>")
-        gr.Markdown(
-            "<center>Hit your word count by using BERT to pad out your essays!</center>"
-        )
-        gr.Interface(
-            fn=inbertolate,
-            inputs=[
-                gr.Textbox(label="Text", lines=10),
-                gr.Slider(label="Maximum length to insert between sentences",
-                          minimum=1,
-                          maximum=40,
-                          step=1,
-                          value=max_len),
-                gr.Slider(label="Top k", minimum=0, maximum=200, value=top_k),
-                gr.Slider(label="Temperature",
-                          minimum=0,
-                          maximum=2,
-                          value=temperature),
-                gr.Slider(label="Typical p",
-                          minimum=0,
-                          maximum=1,
-                          value=typical_p),
-                gr.Slider(label="Maximum iterations",
-                          minimum=0,
-                          maximum=1000,
-                          value=max_iter),
-                gr.Slider(label="Burn-in",
-                          minimum=0,
-                          maximum=500,
-                          value=burnin),
-            ],
-            outputs=gr.Textbox(label="Expanded text", lines=30))
-    block.launch(server_name='0.0.0.0')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--port', type=int)
+    parser.add_argument('--server', type=int)
+    args = parser.parse_args()
+
+    demo = gr.Interface(
+        fn=inbertolate,
+        title="inBERTolate",
+        description=f"Hit your word count by using BERT ({pretrained}) to pad out your essays!",
+        inputs=[
+            gr.Textbox(label="Text", lines=10),
+            gr.Slider(label="Maximum length to insert between sentences",
+                        minimum=1,
+                        maximum=40,
+                        step=1,
+                        value=max_len),
+            gr.Slider(label="Top k", minimum=0, maximum=200, value=top_k),
+            gr.Slider(label="Temperature",
+                        minimum=0,
+                        maximum=2,
+                        value=temperature),
+            gr.Slider(label="Typical p",
+                        minimum=0,
+                        maximum=1,
+                        value=typical_p),
+            gr.Slider(label="Maximum iterations",
+                        minimum=0,
+                        maximum=1000,
+                        value=max_iter),
+            gr.Slider(label="Burn-in",
+                        minimum=0,
+                        maximum=500,
+                        value=burnin),
+        ],
+        outputs=gr.Textbox(label="Expanded text", lines=30))
+    demo.launch(server_name=args.server or '0.0.0.0', server_port=args.port)
