@@ -10,7 +10,7 @@ pinned: false
 license: gpl-3.0
 ---
 
-# inBERTolate
+# inBERTolate [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/teticio/inBERTolate/blob/master/notebooks/gradio_app.ipynb)
 ## Hit your word count by using BERT to pad out your essays!
 
 Sentences are generated that are in context with both the preceding and following sentences. Models like GPT are not well suited to this task as they are Causal Language Models, or autoregressive models, that generate tokens from left to right, conditional on the text that has come before. The B in BERT, on the other hand, stands for "Bidirectional" and it was trained to be able to fill in the gaps using context on either side. BERT is an example of an autoencoder model.
