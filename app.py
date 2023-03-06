@@ -12,8 +12,8 @@ from transformers import (
     LogitsProcessorList,
     TopKLogitsWarper,
     TemperatureLogitsWarper,
+    TypicalLogitsWarper,
 )
-from transformers.generation_logits_process import TypicalLogitsWarper
 
 nltk.download('punkt')
 
